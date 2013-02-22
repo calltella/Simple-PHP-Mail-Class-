@@ -1,10 +1,12 @@
 <?php
 /**
  * Created By:webdesigner93 From http://www.webdesignerforum.co.uk
- * @Description:This is a Simple to use PHP mailing script for sending email
- * via the PHP programming language
+ * =======================================
  * Other Contributers:
  * Andy From http://www.webdesignerforum.co.uk and other WDF Members
+ * =========================================================
+ * @Description:This is a Simple to use PHP mailing script for sending email
+ * via the PHP programming language
  * 
  */ 
 class Email {
