@@ -143,7 +143,7 @@ class Email {
   }
     /**
 * Check to be sure required info is not blank
-* such as a to address/subject and From header
+* such as a to address
 * @param type $message
 * @return \email
 */
