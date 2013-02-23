@@ -9,7 +9,7 @@
  * via the PHP programming language
  * 
  */ 
-class email {
+class Email {
   /**
 * Holds the recipient of the email
 * @var to
@@ -76,6 +76,52 @@ class email {
 */
   private $_errorMSG = "YOUR MESSAGE HAS FAILED TO SEND!";
 
+  /**
+   * ADDED BY Andy From http://www.webdesignerforum.co.uk/
+* Generic constructor method
+* @param [ array $args ] - array of data to 'quick set', example below
+* $args = array(
+* 'isHTML' => bool,
+* 'to' => 'email',
+* 'from' => 'email',
+* 'replyTo' => 'email',
+* 'subject' => 'string',
+* 'message' => 'string',
+* 'charset' => 'string',
+* 'errorMsg'=> 'string',
+* 'successMsg' => 'string'
+* );
+**/
+  public function __construct($args = array()){
+    if (isset($args['isHTML']) && is_bool($args['isHTML'])){
+      $this->isHTML($args['isHTML']);
+    }
+    if (isset($args['to']) && self::isEmailValid($args['to'])){
+      $this->setTo($args['to']);
+    }
+    if (isset($args['from']) && self::isEmailValid($args['from'])){
+      $this->setFrom($args['from']);
+    }
+    if (isset($args['replyTo']) && self::isEmailValid($args['replyTo'])){
+      $this->setReplyTo($args['replyTo']);
+    }
+    if (isset($args['subject'])){
+      $this->setSubject($args['subject']);
+    }
+    if (isset($args['message'])){
+      $this->setMessage($args['message']);
+    }
+    if (isset($args['charset'])){
+      $this->setCharset($args['charset']);
+    }
+    if (isset($args['errorMsg'])){
+      $this->setError($args['errorMsg']);
+    }
+    if (isset($args['successMsg'])){
+      $this->setSuccess($args['successMsg']);
+    }
+
+  }
 
   /**
 * Sets the content type to either html
@@ -207,7 +253,6 @@ class email {
     return $this->headerOutput;
     
   }
-
   /**
 * Send our message
 */
@@ -231,7 +276,8 @@ class email {
      echo $e->getMessage();
     }
   }
+  
+ 
  
 }
-
 ?>
