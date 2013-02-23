@@ -70,11 +70,12 @@ class Email {
 */
   private $_successMSG = "Thank You! Your message has now been sent!";
 
-  /**
-* The message to display if sending our mail fails
-* @var errorMSG
+   /**
+* Turns on debugging for our php mailer
+* and allows errors to be displayed
+* @var debug
 */
-  private $_errorMSG = "YOUR MESSAGE HAS FAILED TO SEND!";
+  private $_debug = false; 
 
   /**
    * ADDED BY Andy From http://www.webdesignerforum.co.uk/
@@ -82,6 +83,7 @@ class Email {
 * @param [ array $args ] - array of data to 'quick set', example below
 * $args = array(
 * 'isHTML' => bool,
+* 'debug' => bool,
 * 'to' => 'email',
 * 'from' => 'email',
 * 'replyTo' => 'email',
@@ -95,6 +97,9 @@ class Email {
   public function __construct($args = array()){
     if (isset($args['isHTML']) && is_bool($args['isHTML'])){
       $this->isHTML($args['isHTML']);
+    }
+     if (isset($args['debug']) && is_bool($args['debug'])){
+      $this->setDebug($args['debug']);
     }
     if (isset($args['to']) && self::isEmailValid($args['to'])){
       $this->setTo($args['to']);
@@ -122,7 +127,39 @@ class Email {
     }
 
   }
-
+    /**
+* Built in mailer error handler
+* Handles mail errors
+* @param type $message
+* @return \email
+*/
+  private function errorHandle($message){
+    if($this->_debug === true):
+	  print("<h1>MAIL ERROR</h1>");
+	  print("Description Of ERROR:<br />");
+	  printf("<span style='color:#FF0000; font-size:13pt;'>%s</span>",$message);
+	  exit;
+	  endif;
+  }
+    /**
+* Check to be sure required info is not blank
+* such as a to address/subject and From header
+* @param type $message
+* @return \email
+*/
+ private function checkRequired(){
+	if(!isset($this->to))
+	$this->errorHandle("You must provide a To Address for PHP to send any email"); 
+ }
+   /**
+* Turns debugging on
+* @param type $debug
+* @return \email
+*/
+  public function setDebug($debug){
+      $this->_debug = $debug;
+      return $this;
+  }
   /**
 * Sets the content type to either html
 * or plain text
@@ -229,7 +266,6 @@ class Email {
       $this->_successMSG = $success;
       return $this;
   }
-
   /**
 * Create our headers for sending the email
 * @return string
@@ -253,6 +289,7 @@ class Email {
     return $this->headerOutput;
     
   }
+
   /**
 * Send our message
 */
@@ -261,23 +298,22 @@ class Email {
 * Create the headers for our email
 */
    $this->_CreateHeaders();
+   //Check that required info is passed to our methods
+   $this->checkRequired();
       /**
 * Send the email
 * if email will not send we throw a new
 * exception and catch that exception
 */
-    try{
    if(!@mail($this->to,$this->subject,$this->message,$this->headerOutput)):
-     throw new exception($this->_errorMSG);
-    else:
+   $this->errorHandle("The php mail() function has failed to send your message!");
+   else:
    echo $this->_successMSG;
    endif;
-    }catch(Exception $e){
-     echo $e->getMessage();
-    }
   }
   
  
  
 }
+
 ?>
