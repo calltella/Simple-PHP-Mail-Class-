@@ -1,15 +1,18 @@
 <?php
 /**
+ * RizoMailer-Simple PHP mail class
  * Created By:webdesigner93 From http://www.webdesignerforum.co.uk
  * =======================================
  * Other Contributers:
  * Andy From http://www.webdesignerforum.co.uk and other WDF Members
  * =========================================================
+ * @Version:1.0
  * @Description:This is a Simple to use PHP mailing script for sending email
  * via the PHP programming language
  * 
+ * 
  */ 
-class Email {
+class RizoMailer {
   /**
 * Holds the recipient of the email
 * @var to
