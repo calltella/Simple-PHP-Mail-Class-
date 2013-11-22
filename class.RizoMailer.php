@@ -1,17 +1,17 @@
 <?php
 /**
- * RizoMailer-Simple PHP mail class
- * Created By:webdesigner93 From http://www.webdesignerforum.co.uk
- * =======================================
- * Other Contributers:
- * Andy From http://www.webdesignerforum.co.uk and other WDF Members
- * =========================================================
- * @Version:1.0
- * @Description:This is a Simple to use PHP mailing script for sending email
- * via the PHP programming language
- * 
- * 
- */ 
+* RizoMailer-Simple PHP mail class
+* Created By:webdesigner93 From http://www.webdesignerforum.co.uk
+* =======================================
+* Other Contributers:
+* Andy From http://www.webdesignerforum.co.uk and other WDF Members
+* =========================================================
+* @Version:1.0
+* @Description:This is a Simple to use PHP mailing script for sending email
+* via the PHP programming language
+*
+*
+*/
 class RizoMailer {
   /**
 * Holds the recipient of the email
@@ -71,17 +71,21 @@ class RizoMailer {
 * Holds the message to display if our mail is sent
 * @var successMSG
 */
-  private $_successMSG = "Thank You! Your message has now been sent!";
-
+  public $successMSG = "Thank You! Your message has now been sent!";
+    /**
+* Holds the message to display if our mail is not sent
+* @var $errorMSG
+*/
+  public $errorMSG = "";
    /**
 * Turns on debugging for our php mailer
 * and allows errors to be displayed
 * @var debug
 */
-  private $_debug = false; 
+  private $_debug = false;
 
   /**
-   * ADDED BY Andy From http://www.webdesignerforum.co.uk/
+* ADDED BY Andy From http://www.webdesignerforum.co.uk/
 * Generic constructor method
 * @param [ array $args ] - array of data to 'quick set', example below
 * $args = array(
@@ -138,11 +142,11 @@ class RizoMailer {
 */
   private function errorHandle($message){
     if($this->_debug === true):
-	  print("<h1>MAIL ERROR</h1>");
-	  print("Description Of ERROR:<br />");
-	  printf("<span style='color:#FF0000; font-size:13pt;'>%s</span>",$message);
-	  exit;
-	  endif;
+         print("<h1>MAIL ERROR</h1>");
+         print("Description Of ERROR:<br />");
+         printf("<span style='color:#FF0000; font-size:13pt;'>%s</span>",$message);
+         exit;
+         endif;
   }
     /**
 * Check to be sure required info is not blank
@@ -151,8 +155,8 @@ class RizoMailer {
 * @return \email
 */
  private function checkRequired(){
-	if(!isset($this->to))
-	$this->errorHandle("You must provide a To Address for PHP to send any email"); 
+        if(!isset($this->to))
+        $this->errorHandle("<strong>RizoMailer ERROR:</strong>You must provide a To Address for PHP to send any email");
  }
    /**
 * Turns debugging on
@@ -256,7 +260,7 @@ class RizoMailer {
 * @return \email
 */
   public function setError($error){
-      $this->_errorMSG = $error;
+      $this->errorMSG = $error;
       return $this;
   }
 
@@ -266,7 +270,7 @@ class RizoMailer {
 * @return \email
 */
    public function setSuccess($success){
-      $this->_successMSG = $success;
+      $this->successMSG = $success;
       return $this;
   }
   /**
@@ -305,11 +309,10 @@ class RizoMailer {
    $this->checkRequired();
       /**
 * Send the email
-* if email will not send we throw a new
-* exception and catch that exception
+* if email will not send we display a error message
 */
    if(!@mail($this->to,$this->subject,$this->message,$this->headerOutput)):
-   $this->errorHandle("The php mail() function has failed to send your message!");
+   $this->errorHandle("<strong>RizoMailer ERROR:</strong>The php mail() function has failed to send your message!");
    else:
    echo $this->_successMSG;
    endif;
@@ -318,5 +321,3 @@ class RizoMailer {
  
  
 }
-
-?>
